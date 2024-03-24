@@ -1,6 +1,9 @@
-const express = require('express')
+const  express = require('express')
+
 const cors = require('cors')
+
 const app = express()
+
 const planetRouter = require('./routes/planets.router')
 
 app.use(
@@ -10,9 +13,7 @@ app.use(
 );
 
 app.use(express.json())
+
 app.use(planetRouter)
-
-
-
 
 module.exports = app;
