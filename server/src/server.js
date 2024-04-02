@@ -1,6 +1,6 @@
 const http = require('http')
 
-const PORT = process.env.PORT || 2121
+const PORT = process.env.PORT || 8000
 
 const app = require('./app')
 
