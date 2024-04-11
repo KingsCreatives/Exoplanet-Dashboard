@@ -1,32 +1,54 @@
-const {getAllLaunches, addNewLaunch} = require('../models/launches.model')
+const {
+  getAllLaunches,
+  addNewLaunch,
+  findLaunchById,
+  abortLaunch,
+} = require("../models/launches.model");
 
-function httpGetAllLaunches(req, res){
-   return res.status(200).json(getAllLaunches())
+function httpGetAllLaunches(req, res) {
+  return res.status(200).json(getAllLaunches());
 }
 
-function httpAddNewLaunch(req, res){
- let launch = req.body
+function httpAddNewLaunch(req, res) {
+  const launch = req.body;
 
- launch.launchDate = new Date(launch.launchDate)
+  launch.launchDate = new Date(launch.launchDate);
 
- if(!launch.mission || !launch.target || !launch.rocket || !launch.launchDate){
+  if (
+    !launch.mission ||
+    !launch.target ||
+    !launch.rocket ||
+    !launch.launchDate
+  ) {
     return res.status(400).json({
-        error: 'Mission required launch properties'
-    })
- }
+      error: "Mission required launch properties",
+    });
+  }
 
- if(isNaN(launch.launchDate)){
+  if (isNaN(launch.launchDate)) {
     return res.status(400).json({
-        error: 'Invalid date format'
+      error: "Invalid date format",
+    });
+  }
+
+  addNewLaunch(launch);
+  return res.status(201).json(launch);
+}
+
+function httpAbortLaunch(req, res) {
+  const launchId = Number(req.params.id);
+
+  if(!(findLaunchById(launchId))){
+    return res.status(404).json({
+        error : "Launch not found"
     })
- }
+  }
 
- addNewLaunch(launch)
-
- return res.status(201).json(launch)
+  return res.status(200).json(abortLaunch(launchId))
 }
 
 module.exports = {
-    httpGetAllLaunches,
-    httpAddNewLaunch,
-}
+  httpGetAllLaunches,
+  httpAddNewLaunch,
+  httpAbortLaunch,
+};
