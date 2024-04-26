@@ -2,7 +2,7 @@ const { parse } = require("csv-parse");
 const path = require("path");
 const fs = require("fs");
 
-const planets = require("./launchesSchema");
+const planets = require("./planetsSchema");
 
 function isHabitablePlanet(planet) {
   return (
@@ -33,8 +33,9 @@ function loadPlanetData() {
         reject(err);
       })
       .on("end", async () => {
+        const planetCount = (await getAllPlanets()).length
         console.log(
-          `There are ${await getAllPlanets().length} habitable planets`
+          `There are ${planetCount} habitable planets`
         );
         resolve();
       });
@@ -43,7 +44,7 @@ function loadPlanetData() {
 
 async function savePlanet(planet) {
   try {
-    return await planets.updateOne(
+     await planets.updateOne(
       {
         keplerName: planet.kepler_name,
       },
@@ -55,7 +56,7 @@ async function savePlanet(planet) {
       }
     );
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }
 
