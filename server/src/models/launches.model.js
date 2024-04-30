@@ -64,15 +64,22 @@ async function scheduleNewLaunch(launch) {
   await saveLaunch(newLaunch);
 }
 
-function findLaunchById(launchId) {
-  return launches.has(launchId);
+async function findLaunchById(launchId) {
+  return await launchDatabase.findOne({ flightNumber: launchId });
 }
 
-function abortLaunch(id) {
-  const aborted = launches.get(id);
-  aborted.success = false;
-  aborted.upcoming = false;
-  return aborted;
+async function abortLaunch(id) {
+  const aborted = await launchDatabase.updateOne(
+    {
+      flightNumber: id,
+    },
+    {
+      success: false,
+      upcoming: false,
+    }
+  );
+
+  return aborted.acknowledged === true && aborted.matchedCount === 1;
 }
 
 module.exports = {
