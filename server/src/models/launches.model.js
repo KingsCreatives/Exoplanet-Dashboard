@@ -40,7 +40,7 @@ async function saveLaunch(launch) {
 
     return newLaunch;
   } catch (error) {
-    console.error("Error saving launch:", error);
+    console.log("Error saving launch:", error);
     return undefined;
   }
 }
