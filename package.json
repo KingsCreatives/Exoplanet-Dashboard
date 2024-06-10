@@ -9,14 +9,10 @@
     "installations": "npm run install-server && npm run install-client",
     "server": "npm run watch --prefix server",
     "client": "npm start --prefix client",
-    "watch": "concurrently \"npm run server\" \"npm run client\"",
     "deploy": "npm run build-windows --prefix client && npm start --prefix server",
     "deploy-cluster": "npm run build-windows --prefix client && npm run cluster --prefix server",
     "test": "npm test --prefix server && npm test --prefix client"
   },
   "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "concurrently": "^8.2.2"
-  }
+  "license": "ISC"
 }
